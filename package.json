@@ -1,0 +1,24 @@
+{
+  "name": "habitschallenge",
+  "version": "1.0.0",
+  "description": "a game lol",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-build": "npm install && cd server && npm install && cd .. && cd productivity_competition && npm install && cd ..",
+    "start": "concurrently \"cd server && npm start\" \"cd productivity_competition && npm run serve\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csc309-fall-2020/team50.git"
+  },
+  "author": "team50",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/csc309-fall-2020/team50/issues"
+  },
+  "homepage": "https://github.com/csc309-fall-2020/team50#readme",
+  "dependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
