@@ -1,6 +1,7 @@
 # Habit Challenger
 
 link : https://peaceful-fjord-41441.herokuapp.com/
+The link is currently offline.
 
 The website will provide users a way to keep track of their habits, and compete their own record with others. Also a forum is provided for users to chat and exchange their experience.
 this web app is made with Vue.js
