@@ -4,7 +4,7 @@
       <v-row>
         <v-col class="text-center" cols="10">
           <v-progress-linear
-            v-model="knowledge"
+            :value="knowledge"
             height="35"
             id="progress"
             class="mt-1"
@@ -34,6 +34,9 @@ export default {
       return this.AccountHabits.filter(h => h.recorded_today).length
     },
     knowledge() {
+      if (this.total_habits === 0){
+        return 0
+      }
       return this.completed_habits*100/this.total_habits
     },
   },
