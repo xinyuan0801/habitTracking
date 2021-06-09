@@ -37,24 +37,6 @@ const routes = [
     component: forumpage
   },
   {
-    path: '/Forum/?id=0',
-    name: 'runningForum',
-    component: forumpage,
-    props: true
-  },
-  {
-    path: '/Forum/?id=1',
-    name: 'pushupForum',
-    component: forumpage,
-    props: true
-  },
-  {
-    path: '/Forum/?id=2',
-    name: 'drawingForum',
-    component: forumpage,
-    props: true
-  },
-  {
     path: '/Post',
     name: 'Post',
     component: Post
