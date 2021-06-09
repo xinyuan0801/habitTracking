@@ -19,6 +19,7 @@
         </div>
         <RankingList
           v-bind:ThreeRandomHabits="ThreeRandomHabits"
+          id="rankingList"
         />
       </v-layout>
     </div>
@@ -195,5 +196,8 @@ export default {
 }
 #content {
   height: 70vh;
+}
+#rankingList {
+  margin-left: 20px;
 }
 </style>

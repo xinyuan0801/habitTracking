@@ -1,53 +1,47 @@
 <template>
-    <div id="rankingList">
-        <v-carousel
-        v-model="model"
-        hide-delimiter-background
-        delimiter-icon="mdi-minus"
-        :show-arrows="false"
-        height="100%"
-        cycle
-        >
-            <v-carousel-item v-for="(habit, i) in ThreeRandomHabits" :key="i">
-                <v-sheet :color="colors[i]" height="100%" tile>
-                <v-col class="fill-height" align="center" justify="center">
-                    <div class="display-3 my-5">{{ habit.name }}</div>
-                    <v-list-item
-                    two-line
-                    v-for="(competitor, i) in habit.competitions"
-                    :key="competitor.placement"
+  <div id="rankingList">
+    <v-carousel
+      v-model="model"
+      hide-delimiter-background
+      delimiter-icon="mdi-minus"
+      :show-arrows="false"
+      height="100%"
+      cycle
+      id="carousel"
+    >
+      <v-carousel-item v-for="(habit, i) in ThreeRandomHabits" :key="i">
+        <v-sheet :color="colors[i]" height="100%" tile>
+          <v-col class="fill-height" align="center" justify="center">
+            <div class="display-3 my-5">{{ habit.name }}</div>
+            <v-list-item
+              two-line
+              v-for="(competitor, i) in habit.competitions"
+              :key="competitor.placement"
+            >
+              <v-list-item-content class="my-1">
+                <v-layout>
+                  <v-icon v-if="i === 0" class="ml-2 mr-6">mdi-crown</v-icon>
+                  <span v-else class="ml-4 mr-8 font-weight-bold text-left">
+                    {{ i + 1 }}</span
+                  >
+                  <div>
+                    <v-list-item-title>
+                      {{ competitor.days }} days
+                    </v-list-item-title>
+                    <v-list-item-subtitle
+                      class="grey--text text--lighten-2 text-left"
                     >
-                    <v-list-item-content class="my-1">
-                        <v-layout>
-                        <v-icon
-                            v-if="i === 0"
-                            class="ml-2 mr-6"
-                            >mdi-crown</v-icon
-                        >
-                        <span
-                            v-else
-                            class="ml-4 mr-8 font-weight-bold text-left"
-                        >
-                            {{ i+1 }}</span
-                        >
-                        <div>
-                            <v-list-item-title>
-                            {{ competitor.days }} days
-                            </v-list-item-title>
-                            <v-list-item-subtitle
-                            class="grey--text text--lighten-2 text-left"
-                            >
-                            {{ competitor.competitor_name }}
-                            </v-list-item-subtitle>
-                        </div>
-                        </v-layout>
-                    </v-list-item-content>
-                    </v-list-item>
-                </v-col>
-                </v-sheet>
-            </v-carousel-item>
-        </v-carousel>
-    </div>
+                      {{ competitor.competitor_name }}
+                    </v-list-item-subtitle>
+                  </div>
+                </v-layout>
+              </v-list-item-content>
+            </v-list-item>
+          </v-col>
+        </v-sheet>
+      </v-carousel-item>
+    </v-carousel>
+  </div>
 </template>
 
 <script>
@@ -92,5 +86,10 @@ export default {
       ],
     };
   },
-}
+};
 </script>
+<style scoped>
+#carousel {
+  border-radius: 15px;
+}
+</style>

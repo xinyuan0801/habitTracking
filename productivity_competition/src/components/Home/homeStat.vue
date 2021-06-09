@@ -4,7 +4,6 @@
       <v-card id="habitRecord">
         <v-tabs background-color="#0099CC" centered dark icons-and-text>
           <v-tabs-slider></v-tabs-slider>
-
           <v-tab>
             Habits Tracking
             <v-badge
@@ -402,9 +401,9 @@
           >
         </v-tabs>
       </v-card>
-      <v-card id="forumEntrance">
+      <v-card id="forumEntrance" color="#26c6da">
         <v-card-title primary-title class="justify-center"
-          ><div><h2 class="headline">Joined Fourm</h2></div></v-card-title
+          ><div><h2 class="headline white--text font-weight-bold">Joined Fourm</h2></div></v-card-title
         >
         <v-container fluid>
           <v-row justify="center" v-for="forum in forums" :key="forum.name">
@@ -629,10 +628,13 @@ export default {
 #habitRecord {
   height: 100%;
   width: 90%;
+  border-radius: 15px;
 }
 #forumEntrance {
   height: 100%;
   width: 30%;
+  border-radius: 15px;
+  margin-left: 20px;
 }
 .habits {
   width: 95%;
