@@ -26,15 +26,15 @@
     <Pb
     v-bind:AccountHabits="AccountHabits"
     />
-    <v-snackbar v-model="popnotif2">
-      {{ notiftext2 }}
+    <v-snackbar v-model="popnotif">
+      {{ notiftext }}
 
       <template v-slot:action="{ attrs }">
         <v-btn
           color="pink"
           text
           v-bind="attrs"
-          @click="popnotif2 = false"
+          @click="popnotif = false"
           :timeout="timeout"
         >
           Close
@@ -69,16 +69,17 @@ export default {
       AccountHabits: [],
       forums: [],
       account: null,
-      popnotif2: false,
-      notiftext2: ""
+      popnotif: false,
+      notiftext: "",
+      timeout:1000,
     };
   },
   mounted: async function () {
     const token = localStorage.getItem('token')
     if(token){
       if(!this.checkTokenValidity(token)){
-        this.notiftext2 = "Sorry your session has timed out. Please Log in Again"
-        this.popnotif2 = true;
+        this.notiftext = "Sorry your session has timed out. Please Log in Again"
+        this.popnotif = true;
         await localStorage.removeItem('token')
         delete axios.defaults.headers.common['Authorization']
         setTimeout(() => this.$router.push({name: 'Login'}), 5000);
