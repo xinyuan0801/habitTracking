@@ -7,17 +7,38 @@
 
           <v-tab>
             Habits Tracking
-            <v-icon>mdi-artstation</v-icon>
+            <v-badge
+              color="green"
+              :value="normalNotComplete"
+              :content="normalNotComplete"
+              overlap
+            >
+              <v-icon>mdi-artstation</v-icon>
+            </v-badge>
           </v-tab>
 
           <v-tab>
             Competition
-            <v-icon>mdi-nintendo-switch</v-icon>
+            <v-badge
+              color="green"
+              :value="competitionHabits"
+              :content="competitionHabits"
+              overlap
+            >
+              <v-icon>mdi-nintendo-switch</v-icon>
+            </v-badge>
           </v-tab>
 
           <v-tab>
             Completed Habits
-            <v-icon>mdi-check-bold</v-icon>
+            <v-badge
+              color="green"
+              :value="completedHabits"
+              :content="completedHabits"
+              overlap
+            >
+              <v-icon>mdi-check-bold</v-icon>
+            </v-badge>
           </v-tab>
           <v-tab-item>
             <v-row justify="center" dense class="mt-2">
@@ -41,7 +62,12 @@
 
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-card-title class="headline" v-bind="attrs" v-on="on" @click="goToForum(findForum(habit))">
+                      <v-card-title
+                        class="headline"
+                        v-bind="attrs"
+                        v-on="on"
+                        @click="goToForum(findForum(habit))"
+                      >
                         {{ find_habit_name(habit) }}
                       </v-card-title>
                     </template>
@@ -113,7 +139,12 @@
 
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-card-title class="headline" v-bind="attrs" v-on="on" @click="goToForum(findForum(habit))">
+                      <v-card-title
+                        class="headline"
+                        v-bind="attrs"
+                        v-on="on"
+                        @click="goToForum(findForum(habit))"
+                      >
                         {{ find_habit_name(habit) }}
                       </v-card-title>
                     </template>
@@ -194,21 +225,20 @@
 
                               <v-list-item
                                 two-line
-                                v-for="(competitor, i) in find_habit(habit).competitions"
+                                v-for="(competitor, i) in find_habit(habit)
+                                  .competitions"
                                 :key="i"
                               >
                                 <v-list-item-content>
                                   <v-layout>
-                                    <v-icon
-                                      v-if="i === 0"
-                                      class="ml-3 mr-6"
+                                    <v-icon v-if="i === 0" class="ml-3 mr-6"
                                       >mdi-crown</v-icon
                                     >
                                     <span
                                       v-else
                                       class="ml-4 mr-8 mt-2 font-weight-bold"
                                     >
-                                      {{ i+1 }}</span
+                                      {{ i + 1 }}</span
                                     >
                                     <div>
                                       <v-list-item-title>
@@ -246,7 +276,8 @@
                                 icon
                                 v-bind="attrs"
                                 v-on="on"
-                                @click="stop_tracking(habit)">
+                                @click="stop_tracking(habit)"
+                              >
                                 <v-icon large>mdi-tray-remove</v-icon>
                               </v-btn>
                             </template>
@@ -281,7 +312,12 @@
                   ></v-checkbox>
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-card-title class="headline" v-bind="attrs" v-on="on" @click="goToForum(findForum(habit))">
+                      <v-card-title
+                        class="headline"
+                        v-bind="attrs"
+                        v-on="on"
+                        @click="goToForum(findForum(habit))"
+                      >
                         {{ find_habit_name(habit) }}
                       </v-card-title>
                     </template>
@@ -322,7 +358,12 @@
 
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-card-title class="headline" v-bind="attrs" v-on="on" @click="goToForum(findForum(habit))">
+                      <v-card-title
+                        class="headline"
+                        v-bind="attrs"
+                        v-on="on"
+                        @click="goToForum(findForum(habit))"
+                      >
                         {{ find_habit_name(habit) }}
                       </v-card-title>
                     </template>
@@ -367,7 +408,12 @@
         >
         <v-container fluid>
           <v-row justify="center" v-for="forum in forums" :key="forum.name">
-            <v-btn depressed color="success" class="mt-2" @click="goToForum(forum)">
+            <v-btn
+              depressed
+              color="success"
+              class="mt-2"
+              @click="goToForum(forum)"
+            >
               {{ forum.name }}
             </v-btn>
           </v-row>
@@ -378,149 +424,200 @@
 </template>
 
 <script>
-import axios from 'axios';
-import ENV from '../../views/config.js'
-const API_HOST = ENV.api_host
+import axios from "axios";
+import ENV from "../../views/config.js";
+const API_HOST = ENV.api_host;
 export default {
   name: "homeStat",
   props: ["AccountHabits", "AllHabits", "forums", "account"],
   data() {
     return {
-      userData: null
+      userData: null,
     };
   },
-  created() {
+  created() {},
+  computed: {
+    normalNotComplete: function() {
+      let cList = this.AccountHabits.filter(
+        (h) => h.competing !== true && h.recorded_today === false
+      );
+      return cList.length;
+    },
+    competitionHabits: function() {
+      let cList = this.AccountHabits.filter(
+        (h) => h.competing === true && h.recorded_today === false
+      );
+      return cList.length;
+    },
+    completedHabits: function() {
+      let cList = this.AccountHabits.filter((h) => h.recorded_today === true);
+      return cList.length;
+    },
   },
   methods: {
     find_placement(AccountHabit) {
-      const habit = this.AllHabits.find(habit => habit.habit_id === AccountHabit.habit_id)
-      let p = 1
-      habit.competitions.forEach(competitor => {
-        if (competitor.days > AccountHabit.days){
-          p++
+      const habit = this.AllHabits.find(
+        (habit) => habit.habit_id === AccountHabit.habit_id
+      );
+      let p = 1;
+      habit.competitions.forEach((competitor) => {
+        if (competitor.days > AccountHabit.days) {
+          p++;
         }
-      })
+      });
       return p;
     },
     find_habit(AccountHabit) {
-      return this.AllHabits.find(habit => habit.habit_id === AccountHabit.habit_id)
+      return this.AllHabits.find(
+        (habit) => habit.habit_id === AccountHabit.habit_id
+      );
     },
     find_habit_name(AccountHabit) {
-      return this.find_habit(AccountHabit).name
+      return this.find_habit(AccountHabit).name;
     },
     async start_competing(AccountHabit) {
       AccountHabit.competing = true;
-      AccountHabit.account_id = this.account.account_id
+      AccountHabit.account_id = this.account.account_id;
       // patching account habit
       try {
-        await axios.patch(`${API_HOST}/account/habit/${AccountHabit.habit_id}`, AccountHabit)
-        console.log("start competing")
+        await axios.patch(
+          `${API_HOST}/account/habit/${AccountHabit.habit_id}`,
+          AccountHabit
+        );
+        console.log("start competing");
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
 
-      try{
+      try {
         // getting account data
         const competitor = {
           competitor_id: this.account.account_id,
           competitor_name: this.account.name,
-          days: AccountHabit.days
-        }
+          days: AccountHabit.days,
+        };
         // adding account to habit competition leadeerboard
-        const res2 = await axios.patch(`${API_HOST}/habit/competitions/${AccountHabit.habit_id}`, competitor)
-        console.log("added to leaderboard")
-        this.find_habit(AccountHabit).competitions = res2.data.habit.competitions // update local leaderboard
-      } catch(error) {
-        console.log(error)
+        const res2 = await axios.patch(
+          `${API_HOST}/habit/competitions/${AccountHabit.habit_id}`,
+          competitor
+        );
+        console.log("added to leaderboard");
+        this.find_habit(AccountHabit).competitions =
+          res2.data.habit.competitions; // update local leaderboard
+      } catch (error) {
+        console.log(error);
       }
     },
     async stop_competing(AccountHabit) {
       AccountHabit.competing = false;
-      AccountHabit.account_id = this.account.account_id
+      AccountHabit.account_id = this.account.account_id;
       try {
-        await axios.patch(`${API_HOST}/account/habit/${AccountHabit.habit_id}`, AccountHabit)
-        console.log("stop competing")
+        await axios.patch(
+          `${API_HOST}/account/habit/${AccountHabit.habit_id}`,
+          AccountHabit
+        );
+        console.log("stop competing");
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-      try{
-        const res2 = await axios.delete(`${API_HOST}/habit/competitions/${AccountHabit.habit_id}`)
-        console.log("removed from leaderboard")
-        this.find_habit(AccountHabit).competitions = res2.data.habit.competitions // update local leaderboard
-      } catch(error) {
-        console.log(error)
+      try {
+        const res2 = await axios.delete(
+          `${API_HOST}/habit/competitions/${AccountHabit.habit_id}`
+        );
+        console.log("removed from leaderboard");
+        this.find_habit(AccountHabit).competitions =
+          res2.data.habit.competitions; // update local leaderboard
+      } catch (error) {
+        console.log(error);
       }
     },
     async toggle_recorded(AccountHabit) {
-      AccountHabit.days = AccountHabit.recorded_today ? AccountHabit.days + 1 : AccountHabit.days - 1;
-      AccountHabit.account_id = this.account.account_id
+      AccountHabit.days = AccountHabit.recorded_today
+        ? AccountHabit.days + 1
+        : AccountHabit.days - 1;
+      AccountHabit.account_id = this.account.account_id;
       // AccountHabit.account_id = this.userData.account_id
       try {
-        await axios.patch(`${API_HOST}/account/habit/${AccountHabit.habit_id}`, AccountHabit)
-        console.log("Habit recorded days updated")
+        await axios.patch(
+          `${API_HOST}/account/habit/${AccountHabit.habit_id}`,
+          AccountHabit
+        );
+        console.log("Habit recorded days updated");
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
 
-      if (AccountHabit.competing){
+      if (AccountHabit.competing) {
         const competitor = {
           competitor_id: this.account.account_id,
           competitor_name: this.account.name,
-          days: AccountHabit.days
-        }
+          days: AccountHabit.days,
+        };
         try {
-          const res = await axios.patch(`${API_HOST}/habit/competitions/u/${AccountHabit.habit_id}`, competitor)
-          this.find_habit(AccountHabit).competitions = res.data.habit.competitions // update local leaderboard
+          const res = await axios.patch(
+            `${API_HOST}/habit/competitions/u/${AccountHabit.habit_id}`,
+            competitor
+          );
+          this.find_habit(AccountHabit).competitions =
+            res.data.habit.competitions; // update local leaderboard
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
       }
     },
     async stop_tracking(AccountHabit) {
       try {
-        await axios.delete(`${API_HOST}/account/habit/${AccountHabit.habit_id}`)
-        console.log("Habit deleted from account")
+        await axios.delete(
+          `${API_HOST}/account/habit/${AccountHabit.habit_id}`
+        );
+        console.log("Habit deleted from account");
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
 
       // remove from leaderboard
       if (AccountHabit.competing) {
-        try{
-          await axios.delete(`${API_HOST}/account/habit/${AccountHabit.habit_id}`)
-          console.log("removed from leaderboard")
-        } catch(error) {
-          console.log(error)
+        try {
+          await axios.delete(
+            `${API_HOST}/account/habit/${AccountHabit.habit_id}`
+          );
+          console.log("removed from leaderboard");
+        } catch (error) {
+          console.log(error);
         }
       }
-      this.refreshAccountHabit()
+      this.refreshAccountHabit();
     },
 
     findForum(AccountHabit) {
-      return this.forums.find(forum => forum.name === this.find_habit_name(AccountHabit))
+      return this.forums.find(
+        (forum) => forum.name === this.find_habit_name(AccountHabit)
+      );
     },
 
     goToForum(forum) {
-      this.$router.push({path: forum.url, query:{ userid: this.account.account_id }});
+      this.$router.push({
+        path: forum.url,
+        query: { userid: this.account.account_id },
+      });
     },
 
     async refreshAccountHabit() {
-      while (this.AccountHabits.length > 0){
-        this.AccountHabits.pop()
+      while (this.AccountHabits.length > 0) {
+        this.AccountHabits.pop();
       }
 
-      try{
+      try {
         const res = await axios.get(`${API_HOST}/accountHabits`);
         res.data.habits.map((habit) => {
-        habit.dialog = false
-        this.AccountHabits.push(habit)
-      })
-      } catch(error) {
-        console.log(error)
+          habit.dialog = false;
+          this.AccountHabits.push(habit);
+        });
+      } catch (error) {
+        console.log(error);
       }
     },
   },
-
 };
 </script>
 

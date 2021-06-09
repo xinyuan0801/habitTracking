@@ -185,15 +185,15 @@ export default {
 }
 
 #rankingList {
-  height: 80%;
+  height: 70vh;
   width: 250px;
 }
 
 #homeStat {
-  height: 80%;
+  height: 70vh;
   width: 60%;
 }
 #content {
-  height: 80vh;
+  height: 70vh;
 }
 </style>
