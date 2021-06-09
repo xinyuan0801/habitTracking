@@ -120,6 +120,7 @@ export default {
         try {
           await axios.patch(`${API_HOST}/accountHabits`, { habit_id: h_id });
           console.log("Adding Habit");
+          this.searchView = false;
           this.refreshAccountHabit();
         } catch (error) {
           console.log(error);
