@@ -65,7 +65,7 @@
       </div>
       <transition name="fade-transition">
         <div id="postarea" v-if="searchView == false">
-          <div id="posts" v-for="post in neoPost" :key="post.liked">
+          <div id="posts" v-for="post in neoPost" :key="post.id">
             <v-hover>
               <v-card
                 slot-scope="{ hover }"
@@ -168,7 +168,7 @@
         <div id="searchnotif" v-if="searchContent == ''">
           <p>No search result</p>
         </div>
-        <div id="posts" v-for="(post, i) in searchedPost" :key="i">
+        <div id="posts" v-for="(fpost, i) in searchedPost" :key="i">
           <v-hover>
             <v-card
               slot-scope="{ hover }"
@@ -181,7 +181,7 @@
             >
               <v-list-item>
                 <v-layout>
-                  <p class="postfont">{{ post.title }}</p>
+                  <p class="postfont">{{ fpost.title }}</p>
                 </v-layout>
               </v-list-item>
 
@@ -192,7 +192,7 @@
                       <v-btn icon x-large v-on="on">
                         <v-avatar color="teal" size="55">
                           <span class="white--text headline">{{
-                            post.avatar
+                            fpost.avatar
                           }}</span>
                         </v-avatar>
                       </v-btn>
@@ -202,12 +202,12 @@
                         <div class="mx-auto text-center">
                           <v-avatar color="teal">
                             <span class="white--text headline">{{
-                              post.avatar
+                              fpost.avatar
                             }}</span>
                           </v-avatar>
-                          <h3>{{ post.op_name }}</h3>
+                          <h3>{{ fpost.op_name }}</h3>
                           <p class="caption mt-1">
-                            {{ post.email }}
+                            {{ fpost.email }}
                           </p>
                           <v-divider class="my-3"></v-divider>
                           <v-btn depressed rounded text to="/FriendProfile">
@@ -221,15 +221,15 @@
 
                   <v-list-item-content>
                     <v-layout>
-                      <p class="username">{{ post.op_name }}</p>
+                      <p class="username">{{ fpost.op_name }}</p>
                     </v-layout>
                   </v-list-item-content>
 
                   <v-layout align-center justify-end>
-                    <p class="posttimefont">{{ post.date }}</p>
+                    <p class="posttimefont">{{ fpost.date }}</p>
                     <v-btn
                       icon
-                      v-if="post.liked == true"
+                      v-if="fpost.liked == true"
                       class="mr-2"
                       :ripple="false"
                     >
@@ -237,22 +237,22 @@
                         class="mr-1"
                         size="50"
                         color="red"
-                        @click.stop="likes(post)"
+                        @click.stop="likes(fpost)"
                         >mdi-heart</v-icon
                       >
                     </v-btn>
                     <v-btn
                       icon
-                      v-if="post.liked == false"
+                      v-if="fpost.liked == false"
                       class="mr-2"
                       :ripple="false"
                     >
-                      <v-icon class="mr-1" size="50" @click.stop="likes(post)"
+                      <v-icon class="mr-1" size="50" @click.stop="likes(fpost)"
                         >mdi-heart</v-icon
                       >
                     </v-btn>
 
-                    <span class="headline">{{ post.likes }}</span>
+                    <span class="headline">{{ fpost.likes }}</span>
                   </v-layout>
                 </v-list-item>
               </v-card-actions>
